@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<title>Be My Date ❤️</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    height:100vh;
+    background: url("bj.jpg") no-repeat center center fixed;
+background-size: cover;
+
+    font-family:Segoe UI, Arial, sans-serif;
+    overflow:hidden;
+}
+.floatText{
+    max-width: 80vw;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+/* Center Content */
+.center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+max-width:90vw;
+padding:20px;
+
+}
+
+/* Heart */
+#bigHeart{
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+/* Name */
+h1{
+    color:#e91e63;
+    margin:5px;
+    font-family:"MonteCarlo", cursive;
+    font-size: clamp(36px, 8vw, 48px);
+
+}
+
+/* Question */
+h2{
+    color:#444;
+    margin:5px;
+font-size: clamp(16px, 4vw, 22px);
+
+}
+
+/* Buttons */
+button{
+    font-size: clamp(14px, 4vw, 18px);
+padding: 10px 24px;
+    border:none;
+    border-radius:25px;
+    font-size:17px;
+    cursor:pointer;
+min-width:90px;
+min-height:44px;
+
+}
+
+#yesBtn{
+    background:#e91e63;
+    color:white;
+}
+
+#noBtn{
+    background:#999;
+    color:white;
+}
+
+/* Bottom Message */
+#bottomMsg{
+    margin-top:15px;
+    font-size:14px;
+    color:#555;
+    min-height:20px;
+}
+
+/* Floating Text */
+.floatText{
+    position:fixed;
+    font-size:18px;
+    color:#e91e63;
+    font-weight:bold;
+    background:white;
+    padding:10px 18px;
+    border-radius:30px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    animation: jiggle 0.5s, fadeOut 3s forwards;
+
+}
+
+/* Jiggle */
+@keyframes jiggle{
+    0%{transform:rotate(0deg);}
+    25%{transform:rotate(3deg);}
+    50%{transform:rotate(-3deg);}
+    75%{transform:rotate(3deg);}
+    100%{transform:rotate(0deg);}
+}
+
+/* Fade */
+@keyframes fadeOut{
+    0%{opacity:1;}
+    70%{opacity:1;}
+    100%{opacity:0;}
+}
+
+/* Celebration */
+#celebrate{
+    position:fixed;
+    inset:0;
+    background:rgba(255,182,193,0.95);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    color:#e91e63;
+    font-size:32px;
+    z-index:999;
+    text-align:center;
+    animation: fadeIn 0.6s ease;
+}
+
+/* Zoom Effect */
+#celebrate h1{
+    animation: pop 0.6s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes pop{
+    0%{transform:scale(0.5);}
+    80%{transform:scale(1.1);}
+    100%{transform:scale(1);}
+}
+@keyframes floatUp{
+    from{transform:translateY(0);opacity:1;}
+    to{transform:translateY(-110vh);opacity:0;}
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="center">
+
+<div id="bigHeart">❤️</div>
+
+<h1 id="name">Her Name</h1>
+<h2>Will you be my Date? ❤️</h2>
+
+<br>
+
+<button id="yesBtn" onclick="yesClick()">Yes</button>
+<button id="noBtn" onclick="startNo(event)">No</button>
+
+<p id="bottomMsg"></p>
+
+</div>
+
+
+<!-- Celebration -->
+<div id="celebrate">
+    <h1>🎉 I Knew It! ❤️</h1>
+    <p>See You Soon 🎉</p>
+</div>
+
+
+<script>
+
+/* Change Name */
+document.getElementById("name").innerText="Aru";
+
+
+/* Floating Messages */
+let texts=[
+"Are you sure?",
+"Really?",
+"Think Again",
+"Please",
+"Pretty Please",
+"Come On!",
+"Just Say Yes",
+"You know you want to",
+"Last Chance",
+"Last Chance!",
+"Last Chance!",
+"Don't be shy 😘",
+"Say Yes already ❤️",
+
+];
+
+let index=0;
+let noMode=false;
+let clickCount=0;
+
+
+/* First No Click */
+function startNo(event){
+
+    event.stopPropagation(); // Stop double click
+
+    document.getElementById("noBtn").style.display="none";
+    noMode=true;
+
+    document.getElementById("bottomMsg").innerText =
+    "Oops! The button seems to be shy...";
+
+    showText();
+}
+
+
+
+/* Show Floating Text */
+function showText(){
+
+if(index >= texts.length) return;
+
+let t=document.createElement("div");
+
+t.className="floatText";
+t.innerText=texts[index];
+
+let x=Math.random()*(window.innerWidth-200);
+let y=Math.random()*(window.innerHeight-100);
+
+t.style.left=x+"px";
+t.style.top=y+"px";
+
+document.body.appendChild(t);
+
+/* Remove After Fade */
+setTimeout(()=>{
+    t.remove();
+},2500);
+
+index++;
+}
+
+
+/* Click Anywhere After No */
+document.body.addEventListener("click",function(){
+
+    if(noMode){
+
+        clickCount++;
+
+        showText();
+
+        /* Change Bottom Message */
+        if(clickCount === 3){
+            document.getElementById("bottomMsg").innerText =
+            "It really wants you to say yes!";
+        }
+
+        if(clickCount === 5){
+            document.getElementById("bottomMsg").innerText =
+            "Just accept it already!";
+        }
+
+    }
+
+});
+
+
+/* Yes Click */
+function yesClick(){
+
+// Show popup
+document.getElementById("celebrate").style.display="flex";
+
+// Remove bottom message
+document.getElementById("bottomMsg").innerText="";
+
+// Start hearts
+setInterval(createCelebrateHeart,200);
+
+}
+function createCelebrateHeart(){
+
+let h=document.createElement("div");
+
+h.innerHTML="❤️";
+
+h.style.position="fixed";
+h.style.left=Math.random()*100+"vw";
+h.style.bottom="-20px";
+h.style.fontSize=(20+Math.random()*30)+"px";
+h.style.opacity="0.9";
+
+h.style.animation="floatUp 4s linear";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),4000);
+
+}
+
+</script>
+
+</body>
+</html>
